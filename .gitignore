@@ -1,1 +1,13 @@
 notes.md
+
+# 1. Ignore all files inside the data folder
+data/**/*
+
+# Allow all directories inside data 
+!data/**/
+
+# Exception: Keep any README.md anywhere inside data/
+!data/**/README.md
+
+# Exception: Keep any file with "_sample" in the name anywhere inside data/
+!data/**/*_sample*
