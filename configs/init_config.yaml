@@ -1,0 +1,25 @@
+train_dataloader:
+  shuffle: true
+  batch_size: 8
+  num_workers: 1
+
+val_dataloader:
+  shuffle: false
+  batch_size: 256 
+  num_workers: 1
+
+model:
+  max_seq_len: 1024
+  d_model: 512
+  num_layers: 1
+  num_heads: 8
+
+trainer:
+  num_epochs: 1
+  learning_rate: 0.0001
+  warmup_percentage: 0.05
+  warmup_start_factor: 0.33
+
+
+  eval_every: 10000
+  num_checkpoints: 5 

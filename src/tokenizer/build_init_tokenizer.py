@@ -13,7 +13,7 @@ dataset = load_dataset('lightonai/ArabicWeb24', data_files='ArabicWeb24/**/*.arr
 
 # build the tokenzier
 
-SAVE_DIR = Path("~/chat_lm/tokenizer/init_tokenizer/")
+SAVE_DIR = Path("~/chat_lm/tokenizers/init_tokenizer/")
 percentage_of_data_to_train_tokenizer = 0.01
 vocab_size = 50 *10**3
 
@@ -22,15 +22,27 @@ random_ids = random.sample( range(0,len(dataset)),num_datapoints )
 print(f"will sample {num_datapoints} datapoints to build tokenizer")
 
 tokenizer = SentencePieceBPETokenizer()
-
+special_tokens = [
+    "<s>",   # bos_token: Beginning of sequence
+    "</s>",  # eos_token: End of sequence
+    "<unk>", # unk_token: Unknown (fallback for characters not in vocab)
+    "<pad>", # pad_token: Padding (to fix the error you had earlier!)
+    "<mask>" # mask_token: Optional, used if you ever do fill-mask tasks
+]
 tokenizer.train_from_iterator(
 dataset["text"][random_ids],
 vocab_size=vocab_size,
+special_tokens=special_tokens,
 show_progress=True
         )
 
 tokenizer = PreTrainedTokenizerFast(
-    tokenizer_object=tokenizer
+    tokenizer_object=tokenizer,
+    bos_token="<s>",
+    eos_token="</s>",
+    unk_token="<unk>",
+    pad_token="<pad>",
+    mask_token="<mask>"
 )
 tokenizer.save_pretrained(SAVE_DIR.expanduser())
 print(tokenizer)

@@ -1,5 +1,8 @@
 notes.md
 
+**/__pycache__
+wandb
+
 # 1. Ignore all files inside the data folder
 data/**/*
 
