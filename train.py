@@ -6,6 +6,7 @@ from pathlib import Path
 from src.models.decoder import Decoder
 from src.dataset.arabic import get_data_loader, get_tokenizer
 from src.trainer import Trainer
+from src.generator import Generator
 import yaml
 
 config_root = Path("~/sudani_lm/configs").expanduser()
@@ -24,7 +25,7 @@ val_dataloader   = get_data_loader(split="val",**config["val_dataloader"])
 config["model"]["vocab_size"] = tokenizer.vocab_size
 config["train_dataloader"]["steps"] = len(train_dataloader)
 config["val_dataloader"]["steps"]   = len(val_dataloader)
-
+print(config)
 # print("---------- tokenizer info -----------")
 # print("special tokens:")
 # speical_tookens = tokenizer.all_special_tokens
@@ -43,7 +44,7 @@ model_stats = model.get_model_stats()
 # model.profile_model(dummy_input)
 config["model"]["stats"] = model_stats
 
-print("----------- initializing the trainer -----------")
+# print("----------- initializing the trainer -----------")
 wandb_run = wandb.init(
 project = "arabic_decoder",
 config=config,
@@ -61,3 +62,6 @@ trainer.train(train_dataloader,val_dataloader)
 wandb_run.finish()
 
 
+# generator = Generator(model)
+# text = generator.generate()
+# print(text)
